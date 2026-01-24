@@ -1,11 +1,22 @@
 import { faEdit, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-// import dataJson from './todo.json'
 import { useState } from "react"
+
+interface Task{
+    id : number;
+    title : string;
+    status : 'completed' | 'uncompleted'
+}
 
 function MainContent() {
 
-    const [todo, setTodo] = useState([]);
+    const [todos, setTodos] = useState<Task[]>([]);
+
+    const newTask = (todo:Task) =>{
+        setTodos([...todos, {id : todo.id, title : todo.title, status : 'uncompleted' }]);
+    }
+
+    
 
 
     return (
