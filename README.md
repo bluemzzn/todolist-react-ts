@@ -3,16 +3,17 @@
 - don't have authentication and no users
 - CRUD system
 
-### TODO [ui]
-- [] Component
-  - [] main wrapper
+### DONE [ui]
+- [X] Component
+  - [X] main wrapper
 
 
-### TODO [functions]
-- [] create task
-- [] search task
-- [] update task
-- [] delete task
+### DOING [functions]
+- [] create function
+- [] search function
+- [] update function
+- [] delete function
 - [] completed, uncomplete 
 - [] read json file
 - [] integrated API with json
+- [] when completed, the edit button disappeared
