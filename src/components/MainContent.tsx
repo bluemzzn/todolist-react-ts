@@ -12,6 +12,7 @@ function MainContent() {
   const [todos, setTodos] = useState<Task[]>([]);
   const [taskInput, setTaskInput] = useState<string>("");
   const [isVisible, setIsVisible] = useState(false);
+  const [search, setSearch] = useState<string>("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTaskInput(e.target.value);
@@ -40,6 +41,7 @@ function MainContent() {
         <input
           type="text"
           placeholder="Search"
+          onChange={(e) => setSearch(e.target.value)}
           className="px-2 border text-sm rounded-full w-full bg-green-lightest"
         />
         <FontAwesomeIcon
@@ -69,27 +71,33 @@ function MainContent() {
       )}
 
       {/* Task container */}
-      {todos.map((tasks) => (
-        <div
-          key={tasks.id}
-          className="flex justify-between px-2 py-3 bg-brown items-center mb-2.5 rounded-sm"
-        >
-          <p className="text-sm text-white">{tasks.task}</p>
-          <div className="flex gap-1">
-            <FontAwesomeIcon
-              icon={faEdit}
-              className="text-black hover:text-white transition ease-in-out duration-200 delay-150"
-            />
-            <FontAwesomeIcon
-              icon={faTrash}
-              className="text-black hover:text-white transition ease-in-out duration-200 delay-150"
-              onClick={() => {
-                setTodos((prev) => prev.filter(a => a.id !== tasks.id));
-              }}
-            />
+      {todos
+        .filter((items) => {
+          return search.toLowerCase() === ""
+            ? items
+            : items.task.toLowerCase().includes(search);
+        })
+        .map((tasks) => (
+          <div
+            key={tasks.id}
+            className="flex justify-between px-2 py-3 bg-brown items-center mb-2.5 rounded-sm"
+          >
+            <p className="text-sm text-white">{tasks.task}</p>
+            <div className="flex gap-1">
+              <FontAwesomeIcon
+                icon={faEdit}
+                className="text-black hover:text-white transition ease-in-out duration-200 delay-150"
+              />
+              <FontAwesomeIcon
+                icon={faTrash}
+                className="text-black hover:text-white transition ease-in-out duration-200 delay-150"
+                onClick={() => {
+                  setTodos((prev) => prev.filter((a) => a.id !== tasks.id));
+                }}
+              />
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 }

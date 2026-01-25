@@ -9,10 +9,10 @@
 
 
 ### DOING [functions]
-- [] create function
-- [] search function
+- [X] add function
+- [X] search function
 - [] update function
-- [] delete function
+- [X] delete function
 - [] completed, uncomplete 
 - [] read json file
 - [] integrated API with json
