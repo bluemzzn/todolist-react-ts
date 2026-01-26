@@ -13,6 +13,8 @@ function MainContent() {
   const [taskInput, setTaskInput] = useState<string>("");
   const [isVisible, setIsVisible] = useState(false);
   const [search, setSearch] = useState<string>("");
+  const [editId, setEditId] = useState<string | null>(null); // task id that is editing
+  const [editInput, setEditInput] = useState<string>(""); //new task that edit
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTaskInput(e.target.value);
@@ -32,6 +34,27 @@ function MainContent() {
     setIsVisible(false);
   };
 
+  // idea of edit[we have 2 state]
+  // 1. know which id is editing
+  // 2. keep editing value
+
+  const handleEdit = (task: Task) => {
+    setEditId(task.id);
+    setEditInput(task.task);
+  };
+
+  const submitEdit = () => {
+    if (!editId) return;
+
+    setTodos((prev) =>
+      prev.map((task) =>
+        task.id === editId ? { ...task, task: editInput } : task,
+      ),
+    );
+    setEditId(null);
+    setEditInput("");
+  };
+
   return (
     <div className="bg-white px-5 py-6 max-w-3xl w-1/4 rounded-2xl">
       <h1 className="text-3xl font-bold mb-5 text-center">ToDoList</h1>
@@ -47,7 +70,7 @@ function MainContent() {
         <FontAwesomeIcon
           icon={faPlus}
           onClick={() => setIsVisible(true)}
-          className="px-1 py-1.5 rounded-full border bg-green hover:bg-green-lighter transition duration-200 delay-150"
+          className="px-1 py-1.5 rounded-full border bg-green hover:bg-green-lighter transition duration-150 delay-100"
         />
       </div>
 
@@ -65,7 +88,7 @@ function MainContent() {
             type="submit"
             value="Submit"
             onClick={handleAddTask}
-            className="px-2.5 py-1.5 text-sm text-center bg-brown text-white hover:bg-amber-300  transition ease-in-out duration-300 delay-150"
+            className="px-2.5 py-1.5 text-sm text-center bg-brown text-white hover:bg-amber-300  transition ease-in-out duration-300 delay-100"
           />
         </div>
       )}
@@ -80,22 +103,44 @@ function MainContent() {
         .map((tasks) => (
           <div
             key={tasks.id}
-            className="flex justify-between px-2 py-3 bg-brown items-center mb-2.5 rounded-sm"
+            className={`flex justify-between px-2 py-3 bg-brown items-center mb-2.5 rounded-sm ${editId === tasks.id ? "bg-transparent" : "bg-brown"} `}
           >
-            <p className="text-sm text-white">{tasks.task}</p>
-            <div className="flex gap-1">
-              <FontAwesomeIcon
-                icon={faEdit}
-                className="text-black hover:text-white transition ease-in-out duration-200 delay-150"
-              />
-              <FontAwesomeIcon
-                icon={faTrash}
-                className="text-black hover:text-white transition ease-in-out duration-200 delay-150"
-                onClick={() => {
-                  setTodos((prev) => prev.filter((a) => a.id !== tasks.id));
-                }}
-              />
-            </div>
+            {editId === tasks.id ? (
+                <input
+                  type="text"
+                  value={editInput}
+                  placeholder="Edit your task"
+                  onChange={(e) => setEditInput(e.target.value)}
+                  onBlur={submitEdit}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") submitEdit();
+                    if (e.key === "Escape") {
+                      setEditId(null);
+                      setEditInput("");
+                    }
+                  }}
+                  className="py-2.5 px-2 text-sm w-full border-2 border-beige bg-beige-lighter rounded-sm"
+                />
+            ) : (
+              <div className="flex justify-between items-center w-full">
+                <p className="text-sm text-white">{tasks.task}</p>
+
+                <div className="flex gap-1">
+                  <FontAwesomeIcon
+                    icon={faEdit}
+                    onClick={() => handleEdit(tasks)}
+                    className="text-black hover:text-white transition ease-in-out duration-150 delay-100"
+                  />
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className="text-black hover:text-white transition ease-in-out duration-150 delay-100"
+                    onClick={() => {
+                      setTodos((prev) => prev.filter((a) => a.id !== tasks.id));
+                    }}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         ))}
     </div>
