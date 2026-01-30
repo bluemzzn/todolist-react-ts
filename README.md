@@ -17,8 +17,8 @@
 - [X] update function
 - [x] delete function
 - [X] completed, uncomplete
-- [] when completed, the edit button disappeared
-- [] keep data in localStorage
+- [X] when completed, the edit button disappeared
+- [X] keep data in localStorage
 
 #### Note -- edit section --
 

@@ -154,7 +154,7 @@ function MainContent() {
                   <FontAwesomeIcon
                     icon={faEdit}
                     onClick={() => handleEdit(tasks)}
-                    className="text-black hover:text-white transition ease-in-out duration-150 delay-100"
+                    className={`text-black hover:text-white transition ease-in-out duration-150 delay-100 ${tasks.status === "completed" ? "invisible" : "visible"}`}
                   />
                   <FontAwesomeIcon
                     icon={faTrash}
