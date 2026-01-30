@@ -39,3 +39,36 @@ press edit -> change state -> react render new UI
 - getItem(key, value) : Retrieves the value associate with the key.
 - removeItem(key) : Removes a key-value pair.
 - clear() : Clear all entries in Local Storage.
+
+```tsx
+This is the first method
+
+ useEffect(() =>{
+    const savedTasks = localStorage.getItem("task");
+    if(savedTasks){
+      setTodos(JSON.parse(savedTasks));
+    }
+    setInitialized(true);
+  }, []);
+
+  useEffect(() => {
+    if(initialized){
+      localStorage.setItem("task", JSON.stringify(todos));
+    }
+  }, [todos, initialized]);
+
+```
+
+```tsx
+The second method use initialized from the todos state and no need to create new one
+
+  const [todos, setTodos] = useState<Task[]>(() =>{
+    const savedTasks = localStorage.getItem("task");
+    return savedTasks ? JSON.parse(savedTasks) : [];
+  });
+
+   useEffect(() => {
+       localStorage.setItem("task", JSON.stringify(todos));
+   }, [todos]);
+
+```

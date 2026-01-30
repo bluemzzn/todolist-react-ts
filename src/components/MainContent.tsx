@@ -1,6 +1,6 @@
 import { faEdit, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Task {
   id: string; // Because we use crypto uuid so it has to be the string
@@ -9,7 +9,10 @@ interface Task {
 }
 
 function MainContent() {
-  const [todos, setTodos] = useState<Task[]>([]);
+  const [todos, setTodos] = useState<Task[]>(() => {
+    const savedTasks = localStorage.getItem("tasks");
+    return savedTasks ? JSON.parse(savedTasks) : [];
+  });
   const [taskInput, setTaskInput] = useState<string>("");
   const [isVisible, setIsVisible] = useState(false);
   const [search, setSearch] = useState<string>("");
@@ -19,6 +22,10 @@ function MainContent() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTaskInput(e.target.value);
   };
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(todos));
+  }, [todos]);
 
   const handleAddTask = () => {
     if (!taskInput.trim()) return;
@@ -117,7 +124,6 @@ function MainContent() {
           <div
             key={tasks.id}
             className={`flex justify-between px-2 py-3 bg-brown items-center mb-2.5 rounded-sm cursor-pointer ${editId === tasks.id ? "bg-transparent" : "bg-brown"} ${tasks.status === "completed" ? "line-through decoration-2 decoration-gray-500" : "no-underline"}`}
-            
           >
             {editId === tasks.id ? (
               <input
@@ -155,6 +161,7 @@ function MainContent() {
                     className="text-black hover:text-white transition ease-in-out duration-150 delay-100"
                     onClick={() => {
                       setTodos((prev) => prev.filter((a) => a.id !== tasks.id));
+                      localStorage.removeItem("tasks");
                     }}
                   />
                 </div>
