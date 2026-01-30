@@ -55,6 +55,19 @@ function MainContent() {
     setEditInput("");
   };
 
+  const toggleComplete = (id: string) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id
+          ? {
+              ...todo,
+              status: todo.status === "completed" ? "uncompleted" : "completed",
+            }
+          : todo,
+      ),
+    );
+  };
+
   return (
     <div className="bg-white px-5 py-6 max-w-3xl w-1/4 rounded-2xl">
       <h1 className="text-3xl font-bold mb-5 text-center">ToDoList</h1>
@@ -103,27 +116,32 @@ function MainContent() {
         .map((tasks) => (
           <div
             key={tasks.id}
-            className={`flex justify-between px-2 py-3 bg-brown items-center mb-2.5 rounded-sm ${editId === tasks.id ? "bg-transparent" : "bg-brown"} `}
+            className={`flex justify-between px-2 py-3 bg-brown items-center mb-2.5 rounded-sm cursor-pointer ${editId === tasks.id ? "bg-transparent" : "bg-brown"} ${tasks.status === "completed" ? "line-through decoration-2 decoration-gray-500" : "no-underline"}`}
+            onClick={() => toggleComplete(tasks.id)}
           >
             {editId === tasks.id ? (
-                <input
-                  type="text"
-                  value={editInput}
-                  placeholder="Edit your task"
-                  onChange={(e) => setEditInput(e.target.value)}
-                  onBlur={submitEdit}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") submitEdit();
-                    if (e.key === "Escape") {
-                      setEditId(null);
-                      setEditInput("");
-                    }
-                  }}
-                  className="py-2.5 px-2 text-sm w-full border-2 border-beige bg-beige-lighter rounded-sm"
-                />
+              <input
+                type="text"
+                value={editInput}
+                placeholder="Edit your task"
+                onChange={(e) => setEditInput(e.target.value)}
+                onBlur={submitEdit}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") submitEdit();
+                  if (e.key === "Escape") {
+                    setEditId(null);
+                    setEditInput("");
+                  }
+                }}
+                className="py-2.5 px-2 text-sm w-full border-2 border-beige bg-beige-lighter rounded-sm"
+              />
             ) : (
               <div className="flex justify-between items-center w-full">
-                <p className="text-sm text-white">{tasks.task}</p>
+                <p
+                  className={`text-sm text-white ${tasks.status === "completed" ? "text-gray-500" : "text-white"}`}
+                >
+                  {tasks.task}
+                </p>
 
                 <div className="flex gap-1">
                   <FontAwesomeIcon

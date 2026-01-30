@@ -16,8 +16,9 @@
 - [x] search function
 - [X] update function
 - [x] delete function
-- [] completed, uncomplete
+- [X] completed, uncomplete
 - [] when completed, the edit button disappeared
+- [] keep data in localStorage
 
 #### Note -- edit section --
 
@@ -31,3 +32,10 @@ Idea of edit in react
 press edit -> change state -> react render new UI 
 - Which task that user is editing? = task id
 - what value is user editing? = temporary text 
+
+#### Note -- localStrorage --
+
+- setItem(key, value) : Adds a key-value pair to Local storage
+- getItem(key, value) : Retrieves the value associate with the key.
+- removeItem(key) : Removes a key-value pair.
+- clear() : Clear all entries in Local Storage.
