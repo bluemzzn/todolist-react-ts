@@ -117,7 +117,7 @@ function MainContent() {
           <div
             key={tasks.id}
             className={`flex justify-between px-2 py-3 bg-brown items-center mb-2.5 rounded-sm cursor-pointer ${editId === tasks.id ? "bg-transparent" : "bg-brown"} ${tasks.status === "completed" ? "line-through decoration-2 decoration-gray-500" : "no-underline"}`}
-            onClick={() => toggleComplete(tasks.id)}
+            
           >
             {editId === tasks.id ? (
               <input
@@ -139,6 +139,7 @@ function MainContent() {
               <div className="flex justify-between items-center w-full">
                 <p
                   className={`text-sm ${tasks.status === "completed" ? "text-gray-500" : "text-white"}`}
+                  onClick={() => toggleComplete(tasks.id)}
                 >
                   {tasks.task}
                 </p>
