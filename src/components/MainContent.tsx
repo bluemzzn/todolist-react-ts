@@ -10,19 +10,21 @@ interface Task {
 
 function MainContent() {
   const [todos, setTodos] = useState<Task[]>(() => {
-    const savedTasks = localStorage.getItem("tasks");
-    return savedTasks ? JSON.parse(savedTasks) : [];
+    // this function isn only run once on first render
+    const savedTasks = localStorage.getItem("tasks"); // get data from localStorage
+    return savedTasks ? JSON.parse(savedTasks) : []; // convert string to array
   });
   const [taskInput, setTaskInput] = useState<string>("");
   const [isVisible, setIsVisible] = useState(false);
   const [search, setSearch] = useState<string>("");
   const [editId, setEditId] = useState<string | null>(null); // task id that is editing
-  const [editInput, setEditInput] = useState<string>(""); //new task that edit
+  const [editInput, setEditInput] = useState<string>(""); // new task that edit
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTaskInput(e.target.value);
   };
 
+  // save todos whenever it changes
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(todos));
   }, [todos]);
@@ -40,10 +42,6 @@ function MainContent() {
     setTaskInput("");
     setIsVisible(false);
   };
-
-  // idea of edit[we have 2 state]
-  // 1. know which id is editing
-  // 2. keep editing value
 
   const handleEdit = (task: Task) => {
     setEditId(task.id);
