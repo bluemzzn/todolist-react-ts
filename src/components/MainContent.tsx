@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 
 interface Task {
-  id: string;
+  id: string; // Because we use crypto uuid so it has to be the string
   task: string;
   status: "completed" | "uncompleted";
 }
@@ -138,7 +138,7 @@ function MainContent() {
             ) : (
               <div className="flex justify-between items-center w-full">
                 <p
-                  className={`text-sm text-white ${tasks.status === "completed" ? "text-gray-500" : "text-white"}`}
+                  className={`text-sm ${tasks.status === "completed" ? "text-gray-500" : "text-white"}`}
                 >
                   {tasks.task}
                 </p>
